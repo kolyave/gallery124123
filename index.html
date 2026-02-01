@@ -1,0 +1,106 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: black;
+        }
+        
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <img id="image" src="Photo1200.jpg" alt="">
+    <h1 id="status" style="position:fixed;top:10px;left:10px;color:white;margin:0;">OK</h1>
+    <script>
+        let kuku = 1200;
+        let pers = 0;
+        let angle = 0;
+        let SET = 0;
+        let wawa= "OK";
+        const move = new Set();
+        move.add('0,0');
+        move.add('6,0');
+        move.add('4,40');
+        move.add('2,40');
+        move.add('6,80')
+        move.add('2,133');
+        move.add('0,133');
+        move.add('4,176');
+        move.add('5,80');
+        move.add('1,0');
+        
+        function updateStatus(){
+          wawa="NOTOK";
+          if (move.has(`${angle},${SET}`)) {wawa="OK";}
+          document.getElementById("status").textContent=wawa;
+        }
+        
+        function updateImage() {
+            if (pers<1) {actu_pers=-pers;}
+            else {actu_pers=2+pers;}
+            const imageNumber = kuku + actu_pers + (angle * 5) + (SET);
+            document.getElementById('image').src = `Photo${imageNumber}.jpg`;
+            updateStatus();
+        }
+
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+              
+                
+                case ' ':
+                  if (angle == 0 && SET == 0){SET = 40; wawa="NOTOK"; updateImage();}
+                  if (angle == 6 && SET == 0){SET = 133;wawa="NOTOK"; updateImage(); }
+                  if (angle == 4 && SET == 40){SET = 0;wawa="NOTOK"; updateImage();}
+                  if (angle == 2 && SET == 133){SET = 0;wawa="NOTOK"; updateImage();}
+                  if (angle == 0 && SET == 133){SET = 176;wawa="NOTOK"; updateImage();}
+                  if (angle == 4 && SET == 176){SET = 133;wawa="NOTOK"; updateImage();}
+                  if (angle == 2 && SET == 40){SET = 80;wawa="NOTOK"; updateImage();}
+                  if (angle == 6 && SET == 80){SET = 40;wawa="NOTOK"; updateImage();}
+                  if (angle == 1 && SET == 0){SET = 80;wawa="NOTOK"; updateImage();}
+                  if (angle == 5 && SET == 80){SET = 0;wawa="NOTOK"; updateImage();}
+                  break;
+                case 'ArrowLeft':
+                    angle--;
+                    if (angle < 0) angle = 7;
+                    updateImage();
+                    break;
+                case 'ArrowRight':
+                    angle++;
+                    if (angle > 7) angle = 0;
+                    updateImage();
+                    break;
+                case 'ArrowDown':
+                    if (pers > -2) {
+                        pers--;
+                        updateImage();
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (pers < 2) {
+                        pers++;
+                        updateImage();
+                    }
+                    break;
+            }
+        });
+        
+        updateImage();
+    </script>
+</body>
+</html>
+```
